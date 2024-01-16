@@ -1,0 +1,9 @@
+---
+- name: PostgreSQL repo
+  ansible.builtin.import_role:
+    name: db/postgresql_repo
+- name: PostgreSQL client
+  ansible.builtin.apt:
+    name:
+      - "postgresql-client-{{ POSTGRES_VERSION }}"
+    state: present

@@ -1,0 +1,7 @@
+---
+- name: Virtualbox
+  ansible.builtin.apt:
+    name:
+      - virtualbox
+      - virtualbox-guest-additions-iso
+    state: present

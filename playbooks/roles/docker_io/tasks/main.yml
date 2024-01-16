@@ -1,0 +1,12 @@
+---
+- name: Docker.io
+  ansible.builtin.apt:
+    name:
+      - docker.io
+    state: present
+- name: Add existing user to group docker "{{ USER }}"
+  ansible.builtin.user:
+    name: "{{ USER }}"
+    groups:
+      - docker
+    append: true

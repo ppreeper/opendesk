@@ -1,0 +1,6 @@
+---
+- name: Terminator terminal emulator
+  ansible.builtin.apt:
+    name:
+      - terminator
+    state: present

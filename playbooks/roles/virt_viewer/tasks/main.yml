@@ -1,0 +1,6 @@
+---
+- name: Virt-viewer
+  ansible.builtin.apt:
+    name:
+      - virt-viewer
+    state: present

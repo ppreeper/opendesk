@@ -1,0 +1,14 @@
+---
+# requirement
+- name: Gup
+  ansible.builtin.import_role:
+    name: gup
+
+- name: Install Nerdfonts
+  ansible.builtin.command: "/usr/local/bin/gup install nerdfonts {{ item.font }}"
+  become_user: "{{ USER }}"
+  with_items:
+    - { font: "Ubuntu" }
+    - { font: "UbuntuMono" }
+    - { font: "Hack" }
+    - { font: "Noto" }

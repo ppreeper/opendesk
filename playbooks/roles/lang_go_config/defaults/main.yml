@@ -1,0 +1,3 @@
+---
+HOME: "{{ lookup('env', 'HOME') }}"
+CONFIGDIR: "{{ lookup('env', 'HOME') }}/.config"

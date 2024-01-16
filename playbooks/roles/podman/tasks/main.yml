@@ -1,0 +1,6 @@
+---
+- name: Podman
+  ansible.builtin.apt:
+    name:
+      - podman
+    state: present

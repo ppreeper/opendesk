@@ -1,0 +1,7 @@
+---
+- name: Libreoffice
+  ansible.builtin.apt:
+    name:
+      - libreoffice
+    state: present
+    update_cache: true

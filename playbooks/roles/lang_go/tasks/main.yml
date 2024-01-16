@@ -1,0 +1,9 @@
+---
+# requirement
+- name: Gup
+  ansible.builtin.import_role:
+    name: gup
+
+# install go
+- name: Install go
+  ansible.builtin.command: "/usr/local/bin/gup install go"
