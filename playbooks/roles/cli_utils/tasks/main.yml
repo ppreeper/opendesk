@@ -5,7 +5,6 @@
       - wget
       - curl
       - aria2
-      - netcat
       - pv
       - fzf
       - ripgrep
