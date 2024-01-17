@@ -35,6 +35,7 @@ opendesk_usage() {
 	# :command.usage_commands
 	printf "%s\n" "Commands:"
 	printf "  %s   install necessary requirements\n" "setup "
+	printf "  %s   clone repository\n" "clone "
 	printf "  %s   deploy ansible playbook onto guest or group\n" "play  "
 	printf "  %s   deploy ansible role onto guest or group\n" "role  "
 	printf "  %s   check the syntax of a playbook\n" "syntax"
@@ -80,6 +81,35 @@ opendesk_setup_usage() {
 	printf "%s\n" "Usage:"
 	printf "  opendesk setup\n"
 	printf "  opendesk setup --help | -h\n"
+	echo
+
+	# :command.long_usage
+	if [[ -n $long_usage ]]; then
+		printf "%s\n" "Options:"
+
+		# :command.usage_fixed_flags
+		printf "  %s\n" "--help, -h"
+		printf "    Show this help\n"
+		echo
+
+	fi
+}
+
+# :command.usage
+opendesk_clone_usage() {
+	if [[ -n $long_usage ]]; then
+		printf "opendesk clone - clone repository\n"
+		echo
+
+	else
+		printf "opendesk clone - clone repository\n"
+		echo
+
+	fi
+
+	printf "%s\n" "Usage:"
+	printf "  opendesk clone\n"
+	printf "  opendesk clone --help | -h\n"
 	echo
 
 	# :command.long_usage
@@ -335,6 +365,13 @@ opendesk_setup_command() {
 }
 
 # :command.function
+opendesk_clone_command() {
+	# src/clone_command.sh
+	git clone https://github.com/ppreeper/opendesk
+
+}
+
+# :command.function
 opendesk_play_command() {
 	# src/play_command.sh
 	[ "${args[target]}" = "localhost" ] && export BECOME="-K" || export BECOME=""
@@ -406,6 +443,13 @@ parse_requirements() {
 			action="setup"
 			shift
 			opendesk_setup_parse_requirements "$@"
+			shift $#
+			;;
+
+		clone)
+			action="clone"
+			shift
+			opendesk_clone_parse_requirements "$@"
 			shift $#
 			;;
 
@@ -493,6 +537,50 @@ opendesk_setup_parse_requirements() {
 
 	# :command.command_filter
 	action="setup"
+
+	# :command.parse_requirements_while
+	while [[ $# -gt 0 ]]; do
+		key="$1"
+		case "$key" in
+
+			-?*)
+				printf "invalid option: %s\n" "$key" >&2
+				exit 1
+				;;
+
+			*)
+				# :command.parse_requirements_case
+				# :command.parse_requirements_case_simple
+				printf "invalid argument: %s\n" "$key" >&2
+				exit 1
+
+				;;
+
+		esac
+	done
+
+}
+
+# :command.parse_requirements
+opendesk_clone_parse_requirements() {
+	# :command.fixed_flags_filter
+	while [[ $# -gt 0 ]]; do
+		case "${1:-}" in
+			--help | -h)
+				long_usage=yes
+				opendesk_clone_usage
+				exit
+				;;
+
+			*)
+				break
+				;;
+
+		esac
+	done
+
+	# :command.command_filter
+	action="clone"
 
 	# :command.parse_requirements_while
 	while [[ $# -gt 0 ]]; do
@@ -772,6 +860,7 @@ run() {
 
 	case "$action" in
 		"setup") opendesk_setup_command ;;
+		"clone") opendesk_clone_command ;;
 		"play") opendesk_play_command ;;
 		"role") opendesk_role_command ;;
 		"syntax") opendesk_syntax_command ;;
