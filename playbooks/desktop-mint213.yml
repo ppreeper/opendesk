@@ -20,6 +20,7 @@
     - fonts_nerdfonts
     - lang_go_config
     - lang_go_tooling
+    - pomodoro
     - lang_python
     - pyenv
     - db_sqlite3
