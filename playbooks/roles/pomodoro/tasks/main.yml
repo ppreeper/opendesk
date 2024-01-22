@@ -11,4 +11,4 @@
     owner: "{{ USER }}"
     group: "{{ USER }}"
   with_items:
-    - { src: "pomodoro.cfg", dest: "{{ CONFIGDIR }}/bash", mode: "0755" }
+    - { src: "pomodoro.cfg", dest: "{{ CONFIGDIR }}/bash", mode: "0640" }
