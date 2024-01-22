@@ -15,15 +15,17 @@
     - cli_filesystems
     - cli_file_utils
     - cli_remote_filesystems
+    - language_packs
     - terminator
     - fonts_nerdfonts
     - lang_go_config
+    - lang_go_tooling
     - lang_python
     - pyenv
     - db_sqlite3
     - db_beaver
     - wgvpn
-    - podman_repo
+    - podman
     - media
     - virt_viewer
     - flatpak_evolution
