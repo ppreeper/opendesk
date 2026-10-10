@@ -1107,9 +1107,7 @@ run() {
 	esac
 }
 
-if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
-	# :command.start
-	command_line_args=("$@")
-	initialize
-	run "${command_line_args[@]}"
-fi
+# :command.start
+command_line_args=("$@")
+initialize
+run "${command_line_args[@]}"
