@@ -1,0 +1,9 @@
+---
+- name: Podman
+  ansible.builtin.apt:
+    name:
+      - podman
+      - podman-compose
+    state: present
+    update_cache: true
+  when: ansible_os_family == 'Debian'

@@ -1,0 +1,9 @@
+---
+- name: Gup
+  ansible.builtin.import_role:
+    name: gup
+
+# install neovim
+- name: Helix install
+  ansible.builtin.command: "/usr/local/bin/gup install helix"
+  become_user: "{{ USER }}"

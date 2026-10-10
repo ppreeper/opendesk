@@ -1,0 +1,29 @@
+---
+- hosts: all
+  name: Desktop LMDE7
+  become: true
+  roles:
+    - nsswitch
+    - sysctl_custom
+    - baseline
+    - userhome
+    - gup
+    - cli_utils
+    - cli_helpers
+    - cli_network
+    - cli_filesystems
+    - cli_file_utils
+    - cli_remote_filesystems
+    - language_packs
+    - terminator
+    - fonts_nerdfonts
+    - db_sqlite3
+    - flatpak_dbeaver
+    - wgvpn
+    - media
+    - virt_viewer
+    - vscode
+    - google_chrome
+    - libreoffice
+    - flatpak_remmina
+    - flatpak_signal

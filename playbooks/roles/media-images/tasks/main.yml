@@ -1,0 +1,19 @@
+---
+- name: Image tools (system)
+  ansible.builtin.apt:
+    name:
+      - jpegoptim
+      - pngquant
+      - gifsicle
+      - imagemagick
+    state: present
+  when: ansible_os_family == 'Debian'
+- name: Media image cli helpers
+  ansible.builtin.template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: "{{ item.mode }}"
+    owner: "{{ USER }}"
+    group: "{{ USER }}"
+  with_items:
+    - { src: "bin/imageopt", dest: "{{ USERBIN }}", mode: "0755" }
