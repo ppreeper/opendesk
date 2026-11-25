@@ -1,0 +1,18 @@
+[project]
+name = "opendesk"
+version = "0.2.0"
+description = "Ansible-based desktop configuration management (Linux Mint 22 / LMDE 7)"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+dependencies = [
+    "ansible-core>=2.16",
+    "ansible-lint>=24.0",
+    "molecule>=24.0",
+    "molecule-plugins[docker]>=23.5",
+    "yamllint>=1.35",
+]
+
+[tool.uv]
+# This is an application/tooling project, not an installable package.
+package = false

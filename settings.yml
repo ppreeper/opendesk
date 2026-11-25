@@ -1,0 +1,16 @@
+#-------------------------------------------------------------------------------
+# BASHLY SETTINGS - opendesk
+# https://bashly.dannyb.co/configuration/
+#-------------------------------------------------------------------------------
+
+# The path containing the bashly source files.
+source_dir: src
+
+# The path to use for creating the bash script.
+target_dir: .
+
+# The generated script must be pipe-friendly so it can be fetched and run with
+# `wget -qO- <url> | bash`. By default bashly wraps the entrypoint in a
+# `[[ "${BASH_SOURCE[0]}" == "${0}" ]]` sourcing guard, which is false when
+# the script is piped into bash. Setting this to `never` omits the guard.
+enable_sourcing: never

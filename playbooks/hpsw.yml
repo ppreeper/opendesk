@@ -1,0 +1,8 @@
+---
+- hosts: all
+  name: HPSW Aruba Config Check
+  tasks:
+    - name: Diff config
+      community.network.aruba_config:
+        diff_against: intended
+        intended_config: "{{ lookup('file', 'master.cfg') }}"

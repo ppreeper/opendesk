@@ -1,0 +1,92 @@
+scope: "@VERSION@-@CLUSTER@"
+namespace: "/postgresql-common/"
+name: @HOSTNAME@
+
+@DCS_CONFIG@
+
+restapi:
+  listen: @HOSTIP@:@API_PORT@
+  connect_address: @HOSTIP@:@API_PORT@
+
+bootstrap:
+  method: pg_createcluster
+  pg_createcluster:
+    command: /usr/share/patroni/pg_createcluster_patroni
+
+  dcs:
+    ttl: 30
+    loop_wait: 10
+    retry_timeout: 10
+    maximum_lag_on_failover: 1048576
+    postgresql:
+      use_pg_rewind: true
+      remove_data_directory_on_rewind_failure: true
+      remove_data_directory_on_diverged_timelines: true
+      parameters:
+        wal_level: logical
+        hot_standby: "on"
+      pg_hba:
+      - local   all             all                                     peer
+      - host    all             all             127.0.0.1/32            md5
+      - host    all             all             ::1/128                 md5
+      - host    all             all             @NETWORK@               md5
+      - local   replication     all                                     peer
+      - host    replication     all             127.0.0.1/32            md5
+      - host    replication     all             ::1/128                 md5
+      - host    replication     all             @NETWORK@               md5
+postgresql:
+  create_replica_method:
+    - pg_clonecluster
+  pg_clonecluster:
+    command: /usr/share/patroni/pg_clonecluster_patroni
+
+  listen: "*:@PORT@"
+  connect_address: @HOSTIP@:@PORT@
+  use_unix_socket: true
+  data_dir: {{ postgresql_data_dir_base | default("@DATADIR_BASE@") }}/@VERSION@/@CLUSTER@
+  bin_dir: /usr/lib/postgresql/@VERSION@/bin
+  config_dir: /etc/postgresql/@VERSION@/@CLUSTER@
+  pgpass: /var/lib/postgresql/@VERSION@-@CLUSTER@.pgpass
+  authentication:
+    replication:
+      username: "{{ patroni_replication_user }}"
+      password: "{{ patroni_replication_pass }}"
+    superuser:
+      username: postgres
+      password: {% if patroni_postgres_pass|length %}"{{ patroni_postgres_pass }}"{% endif %}
+
+{% if patroni_rewind_user|length %}
+    rewind:
+      username: "{{ patroni_rewind_user }}"
+      password: "{{ patroni_rewind_pass }}"
+{% else %}
+#    rewind:
+#      username: "rewind"
+#      password: "rewind-pass"
+{% endif %}
+
+  parameters:
+    unix_socket_directories: '/var/run/postgresql/'
+    # Emulate default Debian/Ubuntu logging
+    logging_collector: 'on'
+    log_directory: '/var/log/postgresql'
+    log_filename: 'postgresql-@VERSION@-@CLUSTER@.log'
+    checkpoint_completion_target: '0.9'
+    default_statistics_target: '100'
+    effective_cache_size: '90GB'
+    effective_io_concurrency: '200'
+    maintenance_work_mem: '2GB'
+    max_connections: '400'
+    max_locks_per_transaction: '64'
+    max_parallel_maintenance_workers: '4'
+    max_parallel_workers: '32'
+    max_parallel_workers_per_gather: '4'
+    max_prepared_transactions: '0'
+    max_replication_slots: '10'
+    max_worker_processes: '8'
+    # pg_stat_statements.track: 'all'
+    random_page_cost: '1.1'
+    shared_buffers: '30GB'
+    shared_preload_libraries: 'pg_stat_statements'
+    track_activity_query_size: '2048'
+    work_mem: '39321kB'
